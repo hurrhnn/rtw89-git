@@ -5,12 +5,36 @@
 #include <linux/module.h>
 #include <linux/usb.h>
 #include "rtw8852c.h"
+#include "reg.h"
 #include "usb.h"
+
+static const struct rtw89_usb_info rtw8852c_usb_info = {
+	.usb_host_request_2		= R_AX_USB_HOST_REQUEST_2_V1,
+	.usb_wlan0_1			= R_AX_USB_WLAN0_1_V1,
+	.hci_func_en			= R_AX_HCI_FUNC_EN_V1,
+	.usb3_mac_npi_config_intf_0	= R_AX_USB3_MAC_NPI_CONFIG_INTF_0_V1,
+	.usb_endpoint_0			= R_AX_USB_ENDPOINT_0_V1,
+	.usb_endpoint_2			= R_AX_USB_ENDPOINT_2_V1,
+	.bulkout_id = {
+		[RTW89_DMA_ACH0] = 3,
+		[RTW89_DMA_ACH2] = 5,
+		[RTW89_DMA_ACH4] = 4,
+		[RTW89_DMA_ACH6] = 6,
+		[RTW89_DMA_B0MG] = 0,
+		[RTW89_DMA_B0HI] = 0,
+		[RTW89_DMA_B1MG] = 1,
+		[RTW89_DMA_B1HI] = 1,
+		[RTW89_DMA_H2C] = 2,
+	},
+};
 
 static const struct rtw89_driver_info rtw89_8852cu_info = {
 	.chip = &rtw8852c_chip_info,
 	.variant = NULL,
 	.quirks = NULL,
+	.bus = {
+		.usb = &rtw8852c_usb_info,
+	},
 };
 
 static const struct usb_device_id rtw_8852cu_id_table[] = {
